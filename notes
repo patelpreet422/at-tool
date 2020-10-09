@@ -1,0 +1,113 @@
+--- Cookie 
+Cookie: 
+  REVEL_FLASH=;
+  REVEL_SESSION=;
+  timeDelta=;
+
+host: https://atcoder.jp
+
+--- Login
+Request Method: POST
+Scheme: HTTPS
+Content Type: application/x-www-form-urlencoded
+
+Login URL:
+  host/login
+
+Login Form Data:
+  username: patelpreet422
+  password: p@ssword
+  csrf_token: 
+
+--- Contest
+
+Contest URL:
+  host/contests/<contestID>/tasks/<problemID>
+
+--- Submit
+Request Method: POST
+Scheme: HTTPS
+Content Type: application/x-www-form-urlencoded
+
+<problemID> = <contestID> + _ + (a | b | ...)
+
+Submit URL:
+  host/contests/<contestID>/submit
+
+Submit Form Data:
+  data.TaskScreenName: <problemID>
+  data.LanguageId: 
+  sourceCode: 
+  csrf_token: 
+  
+--- Submission Verdict
+  First row of table
+  5th column -> Submission score and submission ID (data-id=<submission_ID>) get be found
+  7th column -> Submission verdict (verdict is in <span>)
+  8th column -> Time taken
+  9th column -> Memory taken
+
+Submission Verdict URL:
+  host/contests/<contestID>/submissions/<submission_ID>
+
+-- My Submissions
+
+Submissions URL:
+  host/contests/<contestID>/submissions/me
+
+-- Standing
+Standing URL:
+  host/contests/<contestID>/standings
+
+-- Cmds
+<problemID> = <contestID> + _ + (a | b | ...)
+
+at parse url
+  url == host/contests/<contestID>                     => parse contest
+  url == host/contests/<contestID>/tasks/<problemID>  => parse problem
+
+at submit (What to do if there are multiple source files?)
+  default:
+    parent dir == contestID
+    cwd == (a | b | ...) => submit problem (a | b | ...) 
+  specify problem (a | b | ...)
+
+at test (What to do if there are multiple source files?)
+  default:
+    test the problem depending on the current working directory
+
+at open 
+  default:
+    open contest or problem depending on the current working directory
+  specify problem (a | b | ...)
+
+at config
+  login
+  template
+  set language
+
+-- Cookie management
+https://stackoverflow.com/questions/12756782/go-http-post-and-use-cookies
+
+We have provided custom implementation for JSON.Marshal and JSON.Unmarshall for cookiejar from net/http/cookiejar package so persistence
+
+Default http.client does not use cookie so we must create the http.client so that it uses cookies for requests and responses.
+
+`
+import (
+  "net/http"
+  "net/http/cookiejar"
+)
+jar, err := cookiejar.New(nil)
+client := &http.Client{
+    Jar: jar,
+}
+body, err := client.Get("https://atcoder.jp/login")
+`
+
+
+-- Cmd line
+We parse the specifier so that we can provide all the combination of URL and contesID/problemID commands
+
+parseArg(arg) -> does the actual matching
+parsePath(path) -> parses the path so as to find contestID and problemID
