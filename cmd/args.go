@@ -38,11 +38,7 @@ func parseArgs(opts docopt.Opts) error {
 	if err != nil {
 		return err
 	}
-	if file, ok := opts["--file"].(string); ok {
-		Args.File = file
-	} else if file, ok := opts["<file>"].(string); ok {
-		Args.File = file
-	}
+
 	if Args.Username == "" {
 		Args.Username = cln.Username
 	}
