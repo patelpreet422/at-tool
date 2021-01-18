@@ -36,7 +36,7 @@ func Sid() (err error) {
 	if info.SubmissionID == "" && client.Instance.LastSubmission != nil {
 		info = *client.Instance.LastSubmission
 	}
-	URL, err := info.SubmissionURL(config.Instance.Host)
+	URL, err := info.SubmissionsURL(config.Instance.Host)
 	if err != nil {
 		return
 	}

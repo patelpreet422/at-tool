@@ -86,8 +86,8 @@ func (info *Info) MySubmissionURL(host string) (string, error) {
 	return "", errors.New(ErrorUnknownType)
 }
 
-// SubmissionURL parse submission url
-func (info *Info) SubmissionURL(host string) (string, error) {
+// SubmissionsURL parse submissions url
+func (info *Info) SubmissionsURL(host string) (string, error) {
 	if info.SubmissionID == "" {
 		return "", errors.New(ErrorNeedSubmissionID)
 	}
