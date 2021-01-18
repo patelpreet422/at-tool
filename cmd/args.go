@@ -186,7 +186,7 @@ func parsePath(path string) map[string]string {
 		}
 	}
 
-	fmt.Printf("Parsed from path: %v\n", output)
+	// fmt.Printf("Parsed from path: %v\n", output)
 
 	return output
 }
