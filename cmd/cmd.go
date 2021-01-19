@@ -9,6 +9,7 @@ import (
 	"regexp"
 
 	"github.com/docopt/docopt-go"
+	"github.com/k0kubun/go-ansi"
 
 	"github.com/fatih/color"
 	"github.com/patelpreet422/at-tool/client"
@@ -55,7 +56,11 @@ func getSampleID() (samples []string) {
 		if tmp != nil {
 			idx := string(tmp[1])
 			ans := fmt.Sprintf("ans%v.txt", idx)
-			if _, err := os.Stat(ans); err == nil {
+			_, err := os.Stat(ans)
+
+			if err != nil {
+				ansi.Printf(color.New(color.FgRed).Sprintf("Can't find ans%v.txt, but in%v.txt is present\n", idx, idx))
+			} else {
 				samples = append(samples, idx)
 			}
 		}
